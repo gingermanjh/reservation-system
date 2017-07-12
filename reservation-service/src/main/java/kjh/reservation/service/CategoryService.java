@@ -31,11 +31,13 @@ public class CategoryService {
 		category.setId(insert);
 		return category;
 	}
-
+	
+	@Transactional(readOnly = false)
 	public int delete(Integer id) {
 		return categoryDao.delete(id);
 	}
-
+	
+	@Transactional(readOnly = false)
 	public int update(Category category) {
 		return categoryDao.update(category);
 	}

@@ -14,11 +14,6 @@
 	</form>
 	<br>
 	<br>
-	<a href="/categorys/list">show list</a>
-	<br>
-	<br>
-	<br>
-	<br>
 	<br>
 
 	<table class="table" style="width: 100%">
@@ -32,7 +27,8 @@
 				<tr>
 					<th>${i.id}</th>
 					<th>${i.name}</th>
-					<th><form method="get" action="/categorys/update">
+					<th><form method="post" action="/categorys">
+						<input type="hidden" name="_method" value="put">
 							<input type="hidden" name="id" value="${i.id}"> <input
 								type="text" name="name"> <input type="submit"
 								value="update">
@@ -45,8 +41,7 @@
 	</table>
 	<br>
 
-
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="/resources/app.js"></script>
+	<script src="//code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/resources/categorys.js"></script>
 </body>
 </html>

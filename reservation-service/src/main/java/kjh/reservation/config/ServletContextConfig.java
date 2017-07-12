@@ -1,5 +1,6 @@
 package kjh.reservation.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +24,17 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
+	@Value("${spring.resources.static-locations}")
+	private String staticResourceLocation;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// webapp/resources 경로를 의미
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		// static file들 사용하기 위함(프로젝트 폴더 바깥의 resources - /webapp/WEB-INF/views아래에
+		// jsp넣는 방법 안 쓸때)
+		registry.addResourceHandler("/resources/**").addResourceLocations(staticResourceLocation);
+
+		// /src/main/resources의 파일쓸 때
+		// registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
 }
