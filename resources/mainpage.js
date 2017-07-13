@@ -9,7 +9,8 @@ var limitRow = 4;
 $(function () {
 
     startRolling();
-    showCategorys();
+    // showCategorys();
+    showCategorysByHandlebars();
     productByFilter(1);
 });
 
@@ -41,6 +42,26 @@ function showCategorys() {
     });
 }
 
+// Handlebarsjs 이용해서 카테고리들 가져와서 위치시키기.
+function showCategorysByHandlebars() {
+    $.ajax({
+        url: './main/api/categorys',
+        datatype: 'json',
+        type: 'GET',
+        success: function (res) {
+            var list = res;
+            var source = $("#main-category-template").html();
+            var template = Handlebars.compile(source);
+
+            for (var i = 0; i < list.length; i++) {
+                var html = template(res[i]);
+                $(".event_tab_lst.tab_lst_min").append(html);
+            }
+        }
+
+    });
+}
+
 //카테고리 이벤트 - 통신해서 공연리스트 받기
 function productByFilter(id) {
     $.ajax({
@@ -57,7 +78,8 @@ function productByFilter(id) {
 
             //Element만들기
             clearProductElement();
-            makeProductElement(list);
+            makeProductElementbyHandlebar(list);
+            // makeProductElement(list);
 
             productPageNum++;
         }
@@ -68,14 +90,15 @@ function clearProductElement() {
     $(".lst_event_box .item").remove();
 }
 
+// 메인페이지 프로덕트 엘리멘트 만들기
 function makeProductElement(list) {
     var whichSide = $(".lst_event_box");
-    
+
     for (var i = 0; i < list.length; i++) {
         var li = $("<li></li>", {
             class: 'item',
         });
-        
+
         var a = $("<a></a>", {
             href: '#',
             class: 'item_book',
@@ -86,7 +109,7 @@ function makeProductElement(list) {
         var img = $("<img>", {
             alt: "뮤지컬 로미오와 줄리엣",
             class: 'img_thumb',
-            src: "https://ssl.phinf.net/naverbooking/20170111_225/1484116579024rNkXW_JPEG/2016_%B9%C2%C1%F6%C4%C3_%C0%CE_%B4%F5_%C7%CF%C0%CC%C3%F7_%C6%F7%BD%BA%C5%CD%2820MB%29.jpg?type=l591_945" 
+            src: "https://ssl.phinf.net/naverbooking/20170111_225/1484116579024rNkXW_JPEG/2016_%B9%C2%C1%F6%C4%C3_%C0%CE_%B4%F5_%C7%CF%C0%CC%C3%F7_%C6%F7%BD%BA%C5%CD%2820MB%29.jpg?type=l591_945"
         });
         var span_img_border = $('<span></span', {
             class: 'img_border'
@@ -124,6 +147,25 @@ function makeProductElement(list) {
             $(whichSide).eq(1).append(li);
         }
     }
+}
+
+// handlebarsjs 이용해서 메인페이지 프로덕트 엘리멘트 만들기
+function makeProductElementbyHandlebar(list) {
+    var whichSide = $(".lst_event_box");
+    var source = $("#main-product-template").html();
+    var template = Handlebars.compile(source);
+    for (var i = 0; i < list.length; i++) {
+        var html = template(list[i]);
+
+        if (i % 2 === 0) {
+            // $(whichSide).eq(0)에 추가
+            $(whichSide).eq(0).append(html);
+        } else {
+            // $(whichSide).eq(1)에 추가
+            $(whichSide).eq(1).append(html);
+        }
+    }
+
 }
 
 //카테고리 이벤트 - active 달고 떼기
@@ -181,24 +223,25 @@ function giveMoreProduct() {
     var id = $(".anchor.active").parent().attr("data-category");
     var str = $(".pink").get(0).innerText;
     str = String(str);
-    var num = Number(str.substring(0, str.length-1));
-    if(num-productPageNum*limitRow <= 0) {
+    var num = Number(str.substring(0, str.length - 1));
+    if (num - productPageNum * limitRow <= 0) {
         return false;
     }
     $.ajax({
-         url: './main/api/categorys/' + id +'/offset/' + productPageNum,
-         success: function (res) {
-             productPageNum++;
-             makeProductElement(res);
+        url: './main/api/categorys/' + id + '/offset/' + productPageNum,
+        success: function (res) {
+            productPageNum++;
+            makeProductElementbyHandlebar(res);
+            // makeProductElement(res);
         }
     });
 }
 
 function myReserve() {
     $.ajax({
-		url:'./myreservation',
-		
-	});		
+        url: './myreservation',
+
+    });
 }
 
 $(".btn_pre_e").on("click", function () {
@@ -223,8 +266,8 @@ $(".btn_nxt_e").on("click", function () {
 
 $(".more .btn").on("click", giveMoreProduct);
 
-$(".btn_my").on("click", function() {
-		myReserve();
+$(".btn_my").on("click", function () {
+    myReserve();
 });
 
 // $(".visual_img .item > a").on("click", function() {

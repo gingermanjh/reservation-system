@@ -41,7 +41,7 @@
 	</table>
 	<br>
 
-	<script src="//code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/resources/node_modules/jquery/dist/jquery.js"></script>
 	<script src="/resources/categorys.js"></script>
 </body>
 </html>

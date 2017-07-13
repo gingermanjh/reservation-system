@@ -1,0 +1,15 @@
+{
+  "name": "resources",
+  "version": "1.0.0",
+  "description": "boostcamp reservation npm",
+  "main": "mainpage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1"
+  }
+}
