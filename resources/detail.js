@@ -298,7 +298,10 @@ function addressToXy(queryAddress) {
             items = result.items; // 검색 결과의 배열
 
         // do Something
-        console.dir(response.result.items[0].point.x);
-        console.dir(response.result.items[0].point.y);
+        var mapImgPath = "https://openapi.naver.com/v1/map/staticmap.bin?clientId=xG6IjQpP8c8ePRi3w__i&w=640&h=300&baselayer=default&url=http://localhost:8080/&level=11";
+        var center = "&center="+(response.result.items[0].point.x)+","+(response.result.items[0].point.y);
+        var markers = "&markers="+(response.result.items[0].point.x)+","+(response.result.items[0].point.y);
+        mapImgPath = mapImgPath + center + markers;
+        $(".store_location > img").attr("src", mapImgPath);
     });
 }

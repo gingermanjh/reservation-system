@@ -273,9 +273,9 @@
 					<!-- [D] 오시는길 외 다른 탭 선택 시 detail_location에 hide 추가 -->
 					<div class="detail_location hide">
 						<div class="box_store_info no_topline">
-							<a href="#" class="store_location" title="지도웹으로 연결"> <img
+							<a href="http://map.naver.com" class="store_location" title="지도웹으로 연결"> <img
 								class="store_map img_thumb" alt="map"
-								src="https://simg.pstatic.net/static.map/image?version=1.1&amp;crs=EPSG:4326&amp;baselayer=bl_vc_bg&amp;exception=xml&amp;scale=2&amp;caller=mw_smart_booking&amp;overlayers=ol_vc_an&amp;center=127.0011948,37.5717079&amp;markers=type,default2,127.0011948,37.5717079&amp;level=11&amp;w=340&amp;h=150">
+								src="">
 								<span class="img_border"></span> <span class="btn_map"><i
 									class="spr_book2 ico_mapview"></i></span>
 							</a>
