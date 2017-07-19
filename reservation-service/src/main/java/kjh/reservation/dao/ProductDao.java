@@ -14,7 +14,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import kjh.reservation.domain.DisplayInfo;
 import kjh.reservation.domain.Product;
+import kjh.reservation.domain.ReservationUserComment;
 import kjh.reservation.dto.CountParam;
 
 @Repository
@@ -22,6 +24,7 @@ public class ProductDao {
 	private NamedParameterJdbcTemplate jdbc;
 	private SimpleJdbcInsert insertAction;
 	private RowMapper<Product> rowMapper = BeanPropertyRowMapper.newInstance(Product.class);
+	private RowMapper<DisplayInfo> rowMapperMpd = BeanPropertyRowMapper.newInstance(DisplayInfo.class);
 	private RowMapper<CountParam> rowMapperCount = BeanPropertyRowMapper.newInstance(CountParam.class);
 
 	public ProductDao(DataSource dataSource) {
@@ -77,6 +80,19 @@ public class ProductDao {
 		params.put("offset", offset * ProductSqls.LIMIT_ROW_NUM);
 		params.put("rowNum", ProductSqls.LIMIT_ROW_NUM);
 		return jdbc.query(ProductSqls.SELECT_BY_CATEGORY, params, rowMapper);
+	}
+
+	public Product getProduct(Integer id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", id);
+		return jdbc.queryForObject(ProductSqls.SELECT_BY_ID_DETAIL, params, rowMapper);
+	}
+
+	public DisplayInfo selectByProductId(Integer id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("product_id", id);
+		return jdbc.queryForObject(ProductSqls.SELECT_PLACE_NAME_BY_ID, params, rowMapperMpd);
+		
 	}
 
 }

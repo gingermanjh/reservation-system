@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kjh.reservation.domain.Category;
-import kjh.reservation.domain.Product;
 import kjh.reservation.dto.CountParam;
+import kjh.reservation.dto.MainProductListDto;
 import kjh.reservation.service.CategoryService;
 import kjh.reservation.service.ProductService;
 
@@ -35,21 +35,10 @@ public class MainController {
 		return "mainpage";
 	}
 
-	@GetMapping("/main/api/categorys")
-	@ResponseBody
-	public Collection<Category> getCategory() {
-		return categoryService.getAll();
-	}
-
 	@GetMapping("/myreservation")
 	public String myReserve() {
 		return "loginPage";
 	}
-	
-//	@GetMapping("/detail")
-//	public String check() {
-//		return "myreservation";
-//	}
 	
 	@GetMapping("/check")
 	public String check(HttpSession session) {
@@ -70,11 +59,17 @@ public class MainController {
 		}
 		
 	}
+	
+	@GetMapping("/main/api/categorys")
+	@ResponseBody
+	public Collection<Category> getCategory() {
+		return categoryService.getAll();
+	}
 
 	@GetMapping("/main/api/categorys/{id}")
 	@ResponseBody
-	public Collection<Product> productByFilter(@PathVariable Integer id) {
-		return productService.get(id);
+	public Collection<MainProductListDto> productByFilter(@PathVariable Integer id) {
+		return productService.getListByCategory(id);
 	}
 
 	@GetMapping("/main/api/categorys/count/{id}")
@@ -85,7 +80,8 @@ public class MainController {
 
 	@GetMapping("/main/api/categorys/{id}/offset/{offset}")
 	@ResponseBody
-	public Collection<Product> getMoreProduct(@PathVariable Integer id, @PathVariable Integer offset) {
+	public Collection<MainProductListDto> getMoreProduct(@PathVariable Integer id, @PathVariable Integer offset) {
 		return productService.getMoreProduct(id, offset);
 	}
+
 }

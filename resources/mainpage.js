@@ -11,14 +11,15 @@ var promotionModule = (function () {
     var selNum = 0;
     var rolling;
     var countingTime;
-    var $promoList = $(".visual_img");
+    var promoList = $(".visual_img");
     var totalNum = $(".visual_img li").length;
 
     var init = function () {
         startRolling();
+        promotionSetting();
 
         $(".btn_pre_e").on("click", function () {
-            if ($promoList.is(":animated")) {
+            if (promoList.is(":animated")) {
                 return false;
             }
             stopCountTime();
@@ -28,7 +29,7 @@ var promotionModule = (function () {
         });
 
         $(".btn_nxt_e").on("click", function () {
-            if ($promoList.is(":animated")) {
+            if (promoList.is(":animated")) {
                 return false;
             }
             stopCountTime();
@@ -39,16 +40,28 @@ var promotionModule = (function () {
 
     };
 
+    var promotionSetting = function () {
+        var items = $(".visual_img .item > a");
+        for (var i = 0; i < items.length; i++) {
+            $(items[i]).attr("href", "/detail");
+        }
+    }
+
     var stopRolling = function () {
         clearInterval(rolling);
     }
 
     var startRolling = function () {
-        rolling = setInterval(function () { moveNext(); }, 2000);
+        rolling = setInterval(function () {
+            moveNext();
+        }, 2000);
     }
 
     var startCountTime = function () {
-        countingTime = setInterval(function () { startRolling(); stopCountTime(); }, 4000);
+        countingTime = setInterval(function () {
+            startRolling();
+            stopCountTime();
+        }, 4000);
     }
 
     var stopCountTime = function () {
@@ -62,7 +75,11 @@ var promotionModule = (function () {
             selNum = 0;
         }
 
-        $promoList.stop().animate({ left: (-1) * selNum * 349 + 'px' }, { duration: 500 });
+        promoList.stop().animate({
+            left: (-1) * selNum * 349 + 'px'
+        }, {
+            duration: 500
+        });
     }
 
     //프로모션 이전방향으로 움직이기
@@ -72,7 +89,11 @@ var promotionModule = (function () {
             selNum = totalNum - 1;
         }
 
-        $promoList.stop().animate({ left: (-1) * selNum * 349 + 'px' }, { duration: 500 });
+        promoList.stop().animate({
+            left: (-1) * selNum * 349 + 'px'
+        }, {
+            duration: 500
+        });
     }
 
     return {
@@ -208,21 +229,3 @@ var categoryModule = (function () {
         init: init
     };
 })();
-
-function myReserve() {
-    $.ajax({
-        url: './myreservation',
-
-    });
-}
-
-$(".btn_my").on("click", function () {
-    myReserve();
-});
-
-// $(".visual_img .item > a").on("click", function() {
-//     console.log("1");
-//     $.ajax({
-//         url: './detail'
-//     });
-// });

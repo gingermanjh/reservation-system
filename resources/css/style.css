@@ -3800,3 +3800,14 @@ button {
   top: 0;
   font-size: 10px;
 }
+
+.my_popup_layer {
+    position: fixed;
+    overflow: hidden;
+    display: none;
+    top: 0;
+    width: 414px;
+    height: 100%;
+    background-color: black;
+    z-index: 10000;
+}

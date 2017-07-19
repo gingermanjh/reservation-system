@@ -137,5 +137,8 @@ target
 # for js
 node_modules/
 
+# dummy image
+myimage/
+
 
 
