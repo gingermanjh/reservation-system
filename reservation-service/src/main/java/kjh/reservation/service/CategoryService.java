@@ -1,6 +1,6 @@
 package kjh.reservation.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class CategoryService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Category> getAll() {
+	public List<Category> getAll() {
 		return categoryDao.getAll();
 	}
 	

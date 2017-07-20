@@ -1,6 +1,6 @@
 package kjh.reservation.controller;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,7 @@ public class ReviewController {
 	
 	@GetMapping("/api/comments/{id}")
 	@ResponseBody
-	public Collection<ReviewContentDto> getUserComment(@PathVariable Integer id) {
+	public List<ReviewContentDto> getUserComment(@PathVariable Integer id) {
 		return commentService.getComment(id);
 	}
 

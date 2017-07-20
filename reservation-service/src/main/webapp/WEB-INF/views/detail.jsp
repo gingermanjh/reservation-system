@@ -41,7 +41,7 @@
 								class="spr_bi ico_bk_logo">예약</span>
 							</a>
 						</h1>
-						<a href="#" class="btn_my"> <span title="내 예약">MY</span>
+						<a href="/member" class="btn_my"> <span title="내 예약">MY</span>
 						</a>
 					</header>
 					<div class="pagination">
@@ -273,7 +273,7 @@
 					<!-- [D] 오시는길 외 다른 탭 선택 시 detail_location에 hide 추가 -->
 					<div class="detail_location hide">
 						<div class="box_store_info no_topline">
-							<a href="http://map.naver.com" class="store_location" title="지도웹으로 연결"> <img
+							<a href="" class="store_location" title="지도웹으로 연결"> <img
 								class="store_map img_thumb" alt="map"
 								src="">
 								<span class="img_border"></span> <span class="btn_map"><i

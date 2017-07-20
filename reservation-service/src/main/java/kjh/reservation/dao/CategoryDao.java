@@ -1,8 +1,8 @@
 package kjh.reservation.dao;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -57,7 +57,7 @@ public class CategoryDao {
 		}
 	}
 
-	public Collection<Category> getAll() {
+	public List<Category> getAll() {
 		Map<String, Object> params = Collections.emptyMap();
 		return jdbc.query(CategorySqls.SELECT_ALL, params, rowMapper);
 	}

@@ -1,14 +1,11 @@
 function deleteItem(item) {
 	var id = item.attr("id");
 	$.ajax({
-		url: '/categorys/api/remove/' + id,
+		url: '/categorys/api/' + id,
 		datatype: 'json',
-		headers: {
-			'content-Type': 'application/json'
-		},
 		type: 'DELETE',
 		success: function () {
-			item.parent().parent().remove();
+			$("#"+id).remove();
 		}
 	})
 }

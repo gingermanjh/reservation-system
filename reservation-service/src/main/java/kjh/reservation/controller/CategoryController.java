@@ -1,6 +1,6 @@
 package kjh.reservation.controller;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +24,7 @@ public class CategoryController {
 
 	@GetMapping
 	public String main(HttpServletRequest request) {
-		Collection<Category> list = categoryService.getAll();
+		List<Category> list = categoryService.getAll();
 		request.setAttribute("listInfo", list);
 		return "categoryPage";
 	}

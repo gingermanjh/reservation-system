@@ -3,8 +3,8 @@ package kjh.reservation.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +27,15 @@ public class ReviewService {
 	private ReviewDao reviewDao;
 
 	@Transactional(readOnly = true)
-	public Collection<ReviewContentDto> getComment(Integer id) {
-		Collection<ReservationUserComment> rucList = reviewDao.getComment(id);
-		Collection<ReviewContentDto> reviewList = new ArrayList<ReviewContentDto>();
+	public List<ReviewContentDto> getComment(Integer id) {
+		List<ReservationUserComment> rucList = reviewDao.getComment(id);
+		List<ReviewContentDto> reviewList = new ArrayList<ReviewContentDto>();
 		String productName = reviewDao.getProductName(id);
 		for(ReservationUserComment ruc : rucList) {
 			ReviewContentDto rcd = new ReviewContentDto();
 			ArrayList<FileDomain> fdList = new ArrayList<FileDomain>();
 			String userName = reviewDao.getUserName(ruc.getUserId());
-			Collection<ReservationUserCommentImage> ruciList = reviewDao.getFileId(ruc.getId());
+			List<ReservationUserCommentImage> ruciList = reviewDao.getFileId(ruc.getId());
 			for(ReservationUserCommentImage ruci : ruciList) {
 				FileDomain fd = reviewDao.getSavedFileName(ruci.getFileId());
 				fdList.add(fd);
@@ -60,7 +60,7 @@ public class ReviewService {
 
 	@Transactional(readOnly = true)
 	public ReviewStatDto getStats(Integer id) {
-		Collection<ReservationUserComment> rucList = reviewDao.getAllComments(id);
+		List<ReservationUserComment> rucList = reviewDao.getAllComments(id);
 		BigDecimal bd = new BigDecimal(0.0);
 		ReviewStatDto rsd = new ReviewStatDto();
 		for(ReservationUserComment ruc : rucList) {

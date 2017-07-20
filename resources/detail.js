@@ -1,20 +1,31 @@
+var url = $(location).attr('href').split('/');
+var lastIdx = url.length - 1;
+var id = url[lastIdx];
+
+var commentImgList;
+
 var salesFlag;
 var productEvent;
 var description;
 var name;
-var selNum = 0;
-// var totalNum = $(".visual_img li").length;
-var productImageList = $(".visual_img");
-var url = $(location).attr('href').split('/');
-var lastIdx = url.length - 1;
-var id = url[lastIdx];
-var commentImgList;
 
+var selNum = 0;
+var productImageList = $(".visual_img");
+
+var PageModule = (function() {
+
+    return {
+
+    };
+})();
 
 $(function () {
     pageInit();
 });
 
+/*
+처음에 url을 얻어내서 
+*/
 function pageInit() {
     $.ajax({
         url: '/detail/api/' + id,
@@ -31,12 +42,20 @@ function pageInit() {
     });
 }
 
+/*
+그 상품의 리뷰를 3개 받아
+리뷰 사진들 모아보는 레이어 팝업에 사진을 띄우기 위해
+response를 commentImgList에 저장해둠.
+
+모든 리뷰 갯수와 그 리뷰들의 점수 총합을 내려받아
+화면처리.
+*/
 function showComments() {
     $.ajax({
         url: '/detail/api/comments/' + id,
         success: function (res) {
             commentImgList = res;
-            $(".img_item img.review_img").attr("src", res[0].imgList[0].saveFileName);
+            // $(".img_item img.review_img").attr("src", res[0].imgList[0].saveFileName);
             makeCommentElement(res);
         }
     });
@@ -57,6 +76,7 @@ function showComments() {
     });
 }
 
+// handlebarjs를 이용해 리뷰 엘리먼트들을 만듬
 function makeCommentElement(res) {
     var commentList = $(".list_short_review");
     var source = $("#detail-comment-template").html();
@@ -68,6 +88,7 @@ function makeCommentElement(res) {
     }
 }
 
+// 상품 사진 다음으로 이동
 function moveNext() {
     var totalNum = $(".visual_img li").length;
     selNum = selNum + 1;
@@ -83,6 +104,7 @@ function moveNext() {
     });
 }
 
+// 상품 사진 이전으로 이동
 function movePrev() {
     var totalNum = $(".visual_img li").length;
     selNum = selNum - 1;
@@ -98,6 +120,8 @@ function movePrev() {
     });
 }
 
+
+// handlebarjs를 이용해서 상품사진 엘리먼트를 만듬
 function makeProductImageElement(res) {
     var source = $("#detail-product-image-template").html();
     var template = Handlebars.compile(source);
@@ -107,6 +131,7 @@ function makeProductImageElement(res) {
     }
 }
 
+// 통신해서 상품 이미지들 받아내림
 function showProductImages() {
     $.ajax({
         url: '/files/' + id,
@@ -119,6 +144,7 @@ function showProductImages() {
     });
 }
 
+// 펼쳐보기 접기 이벤트
 $(".bk_more").on("click", function (event) {
     event.preventDefault();
     if ($(this).hasClass("_open")) {
@@ -132,6 +158,7 @@ $(".bk_more").on("click", function (event) {
     }
 });
 
+// 예매 버튼 이벤트
 $(".bk_btn").on("click", function () {
     if (salesFlag === 0) {
         alert("예매~~");
@@ -142,6 +169,7 @@ $(".bk_btn").on("click", function () {
     }
 });
 
+// 이벤트 정보가 있는지 없는지 체크
 function hasEvent() {
     if (productEvent === "none") {
         $(".section_event").css("display", "none");
@@ -152,21 +180,27 @@ function hasEvent() {
     }
 }
 
-productImageList.on("touchstart", singleTouchStart);
-productImageList.on("touchmove", singleTouchMove);
-productImageList.on("touchend", singleTouchEnd);
+productImageList.on({
+    touchstart: singleTouchStart,    
+    touchmove: singleTouchMove,
+    touchend: singleTouchEnd
+});
 
 var startX;
 var endX;
 
+// 처음 터치했을때 좌표 저장
 function singleTouchStart(event) {
     startX = event.touches[0].pageX;
 }
 
+// 터치한채로 멈춘 곳의 좌표 저장
 function singleTouchMove(event) {
     endX = event.touches[0].pageX;
 }
 
+// 처음 좌표와 이동한 좌표의 방향을 구해서 그림 이동
+// 한번 터치만 하는 경우가 있으므로 좌표 초기화
 function singleTouchEnd(event) {
     if (endX === null) {
         return false;
@@ -183,15 +217,13 @@ function singleTouchEnd(event) {
 }
 
 
+// 상품 사진 이전방향으로 이동
+$(".prev_inn").on("click", movePrev);
 
-$(".prev_inn").on("click", function () {
-    movePrev();
-});
+// 상품 사진 다음방향으로 이동
+$(".nxt_inn").on("click", moveNext);
 
-$(".nxt_inn").on("click", function () {
-    moveNext();
-});
-
+// 상세정보와 오시는 길 이벤트
 $(".info_tab_lst .item .anchor").on("click", function (event) {
     event.preventDefault();
     var items = $(".info_tab_lst .anchor");
@@ -230,6 +262,7 @@ $(".info_tab_lst .item .anchor").on("click", function (event) {
     }
 });
 
+// handlebarjs사용하여 모든 리뷰 이미지들 엘리먼트 만듬.
 function showReviewImages(cmtId) {
     $(".sec_img ul.img_list").children().remove();
     var source = $("#review-images-template").html();
@@ -242,6 +275,7 @@ function showReviewImages(cmtId) {
     $(".img_list .img_item").eq(0).css("margin-left", "0px");
 }
 
+// 레이어 팝업 이벤트
 $(".list_short_review").on("click", "a.thumb", function (event) {
     event.preventDefault();
     popupSelNum = 0;
@@ -250,6 +284,7 @@ $(".list_short_review").on("click", "a.thumb", function (event) {
     showReviewImages($(this).attr("id"));
 });
 
+// 레이어 팝업의 창닫기 버튼 이벤트
 $("#btn_x").on("click", function () {
     $(".my_popup_layer").css("display", "none");
 });
@@ -257,6 +292,8 @@ $("#btn_x").on("click", function () {
 
 var popupSelNum = 0;
 var popupImageList = $(".img_list");
+
+// 레이어 팝업의 이전방향 이벤트
 $("#btn_popup_prev").on("click", function () {
     var totalNum = $(".img_list li").length;
 
@@ -272,6 +309,7 @@ $("#btn_popup_prev").on("click", function () {
     });
 });
 
+// 레이어 팝업의 다음 방향 이벤트
 $("#btn_popup_next").on("click", function () {
     var totalNum = $(".img_list li").length;
     popupSelNum = popupSelNum + 1;
@@ -286,6 +324,7 @@ $("#btn_popup_next").on("click", function () {
     });
 });
 
+// 주소지를 입력받아 좌표를 계산하고 이미지를 그림
 function addressToXy(queryAddress) {
     naver.maps.Service.geocode({
         address: queryAddress
@@ -294,14 +333,21 @@ function addressToXy(queryAddress) {
             return alert('Something wrong!');
         }
 
-        var result = response.result, // 검색 결과의 컨테이너
-            items = result.items; // 검색 결과의 배열
-
-        // do Something
         var mapImgPath = "https://openapi.naver.com/v1/map/staticmap.bin?clientId=xG6IjQpP8c8ePRi3w__i&w=640&h=300&baselayer=default&url=http://localhost:8080/&level=11";
         var center = "&center="+(response.result.items[0].point.x)+","+(response.result.items[0].point.y);
         var markers = "&markers="+(response.result.items[0].point.x)+","+(response.result.items[0].point.y);
         mapImgPath = mapImgPath + center + markers;
+        $(".store_location").attr("href", "http://map.naver.com/?query="+queryAddress);
         $(".store_location > img").attr("src", mapImgPath);
     });
 }
+
+
+
+/*
+페이지 관련
+상품 사진
+리뷰
+상세정보
+지도
+*/

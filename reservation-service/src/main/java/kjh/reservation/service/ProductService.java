@@ -1,7 +1,7 @@
 package kjh.reservation.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,9 @@ public class ProductService {
 	ProductDao productDao;
 	
 	@Transactional(readOnly = true)
-	public Collection<MainProductListDto> getListByCategory(Integer id) {
-		Collection<MainProductListDto> mpdList = new ArrayList<MainProductListDto>();
-		Collection<Product> pdList = productDao.selectByCategory(id);
+	public List<MainProductListDto> getListByCategory(Integer id) {
+		List<MainProductListDto> mpdList = new ArrayList<MainProductListDto>();
+		List<Product> pdList = productDao.selectByCategory(id);
 		
 		for(Product pd : pdList) {
 			MainProductListDto mpd = new MainProductListDto();
@@ -42,9 +42,9 @@ public class ProductService {
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<MainProductListDto> getMoreProduct(Integer id, Integer offset) {
-		Collection<MainProductListDto> mpdList = new ArrayList<MainProductListDto>();
-		Collection<Product> pdList = productDao.getMoreProduct(id, offset);
+	public List<MainProductListDto> getMoreProduct(Integer id, Integer offset) {
+		List<MainProductListDto> mpdList = new ArrayList<MainProductListDto>();
+		List<Product> pdList = productDao.getMoreProduct(id, offset);
 		
 		for(Product pd : pdList) {
 			MainProductListDto mpd = new MainProductListDto();

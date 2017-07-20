@@ -26,7 +26,7 @@ public class CategoryRestController {
 	// return categoryService.getAll();
 	// }
 
-	@DeleteMapping("/remove/{id}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Integer id) {
 		categoryService.delete(id);

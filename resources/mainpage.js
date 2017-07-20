@@ -1,20 +1,18 @@
-var productPageNum = 0;
-
 $(function () {
 
-    promotionModule.init();
-    categoryModule.init();
-    productModule.init();
+    PromotionModule.init();
+    CategoryModule.init();
+    ProductModule.init();
 });
 
-var promotionModule = (function () {
+var PromotionModule = (function () {
     var selNum = 0;
     var rolling;
     var countingTime;
     var promoList = $(".visual_img");
     var totalNum = $(".visual_img li").length;
 
-    var init = function () {
+    function init() {
         startRolling();
         promotionSetting();
 
@@ -38,38 +36,38 @@ var promotionModule = (function () {
             startCountTime();
         });
 
-    };
+    }
 
-    var promotionSetting = function () {
+    function promotionSetting() {
         var items = $(".visual_img .item > a");
         for (var i = 0; i < items.length; i++) {
             $(items[i]).attr("href", "/detail");
         }
     }
 
-    var stopRolling = function () {
+    function stopRolling() {
         clearInterval(rolling);
     }
 
-    var startRolling = function () {
+    function startRolling() {
         rolling = setInterval(function () {
             moveNext();
         }, 2000);
     }
 
-    var startCountTime = function () {
-        countingTime = setInterval(function () {
+    function startCountTime() {
+        countingTime = setTimeout(function () {
             startRolling();
             stopCountTime();
         }, 4000);
     }
 
-    var stopCountTime = function () {
+    function stopCountTime() {
         clearInterval(countingTime);
     }
 
     //프로모션 다음방향으로 움직이기
-    var moveNext = function () {
+    function moveNext() {
         selNum = selNum + 1;
         if (selNum >= totalNum) {
             selNum = 0;
@@ -83,7 +81,7 @@ var promotionModule = (function () {
     }
 
     //프로모션 이전방향으로 움직이기
-    var movePrev = function () {
+    function movePrev() {
         selNum = selNum - 1;
         if (selNum < 0) {
             selNum = totalNum - 1;
@@ -102,17 +100,17 @@ var promotionModule = (function () {
 
 })();
 
-var productModule = (function () {
-
+var ProductModule = (function () {
+    var productPageNum = 0;
     var limitRow = 4;
 
-    var init = function () {
+    function init() {
         productByFilter(1);
         $(".more .btn").on("click", giveMoreProduct);
     };
 
     //카테고리 이벤트 - 통신해서 공연리스트 받기
-    var productByFilter = function (id) {
+    function productByFilter(id) {
         $.ajax({
             url: './main/api/categorys/count/' + id,
             success: function (res) {
@@ -134,15 +132,14 @@ var productModule = (function () {
         });
     };
 
-    var clearProductElement = function () {
+    function clearProductElement() {
         $(".lst_event_box .item").remove();
     };
 
-    var giveMoreProduct = function () {
+    function giveMoreProduct() {
         var id = $(".anchor.active").parent().attr("data-category");
         var str = $(".pink").get(0).innerText;
-        str = String(str);
-        var num = Number(str.substring(0, str.length - 1));
+        var num = str.substring(0, str.length - 1)-0;
         if (num - productPageNum * limitRow <= 0) {
             return false;
         }
@@ -156,7 +153,7 @@ var productModule = (function () {
     };
 
     // handlebarsjs 이용해서 메인페이지 프로덕트 엘리멘트 만들기
-    var makeProductElementbyHandlebar = function (list) {
+    function makeProductElementbyHandlebar(list) {
         var whichSide = $(".lst_event_box");
         var source = $("#main-product-template").html();
         var template = Handlebars.compile(source);
@@ -174,25 +171,30 @@ var productModule = (function () {
 
     }
 
+    function setProductPageNum(num) {
+        productPageNum = num;
+    }
+
     return {
         init: init,
-        productByFilter: productByFilter
+        productByFilter: productByFilter,
+        setProductPageNum: setProductPageNum
     };
 
 })();
 
-var categoryModule = (function () {
+var CategoryModule = (function () {
 
     // 통신해서 카테고리 가져오기
     // 카테고리 엘리먼트에 이벤트 핸들러 달기
-    var init = function () {
+    function init() {
         showCategories();
         $(".section_event_tab").on("click", ".anchor", changeCategoryStyle);
     };
 
     // 카테고리 이벤트 - active 달고 떼기
-    var changeCategoryStyle = function () {
-        productPageNum = 0;
+    function changeCategoryStyle() {
+        ProductModule.setProductPageNum(0);
         var categorys = $(".anchor");
         for (var i = 0; i < categorys.length; i++) {
             if ($(categorys[i]).hasClass("active")) {
@@ -202,11 +204,11 @@ var categoryModule = (function () {
         $(this).addClass("active");
         var categoryId = $(this).closest(".item").attr("data-category");
 
-        productModule.productByFilter(categoryId);
+        ProductModule.productByFilter(categoryId);
     };
 
     // Handlebarsjs 이용해서 카테고리들 가져와서 위치시키기.
-    var showCategories = function () {
+    function showCategories() {
         $.ajax({
             url: './main/api/categorys',
             datatype: 'json',

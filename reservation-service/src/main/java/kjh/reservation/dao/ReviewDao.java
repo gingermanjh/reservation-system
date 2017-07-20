@@ -1,7 +1,7 @@
 package kjh.reservation.dao;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -33,14 +33,14 @@ public class ReviewDao {
 	}
 
 
-	public Collection<ReservationUserComment> getComment(Integer id) {
+	public List<ReservationUserComment> getComment(Integer id) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("product_id", id);
 		return jdbc.query(ReviewSqls.SELECT_COMMENT_BY_ID_FIRST, params, rowMapper);
 	}
 
 
-	public Collection<ReservationUserComment> getAllComments(Integer id) {
+	public List<ReservationUserComment> getAllComments(Integer id) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("product_id", id);
 		return jdbc.query(ReviewSqls.SELECT_COMMENT_BY_ID, params, rowMapper);
@@ -66,7 +66,7 @@ public class ReviewDao {
 	}
 
 
-	public Collection<ReservationUserCommentImage> getFileId(Integer id) {
+	public List<ReservationUserCommentImage> getFileId(Integer id) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", id);
 		return jdbc.query(FileSqls.SELECT_COMMENT_FILE_ID, params, rowMapperCommentImage);

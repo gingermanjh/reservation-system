@@ -1,7 +1,7 @@
 package kjh.reservation.dto;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 
 import kjh.reservation.domain.FileDomain;
 
@@ -13,7 +13,7 @@ public class ReviewContentDto {
 	private String comment;
 	private BigDecimal score; 
 	private String modify_date;
-	private Collection<FileDomain> imgList;
+	private List<FileDomain> imgList;
 	public Integer getCommentId() {
 		return commentId;
 	}
@@ -50,10 +50,10 @@ public class ReviewContentDto {
 	public void setModify_date(String modify_date) {
 		this.modify_date = modify_date;
 	}
-	public Collection<FileDomain> getImgList() {
+	public List<FileDomain> getImgList() {
 		return imgList;
 	}
-	public void setImgList(Collection<FileDomain> imgList) {
+	public void setImgList(List<FileDomain> imgList) {
 		this.imgList = imgList;
 	}
 	@Override

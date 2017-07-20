@@ -1,6 +1,6 @@
 package kjh.reservation.controller;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,7 +44,7 @@ public class FileController {
 	
 	@GetMapping("/{id}")
 	@ResponseBody
-	public Collection<FileDomain> getImageList(@PathVariable Integer id) {
+	public List<FileDomain> getImageList(@PathVariable Integer id) {
 		return fileService.getImageList(id);
 	}
 }

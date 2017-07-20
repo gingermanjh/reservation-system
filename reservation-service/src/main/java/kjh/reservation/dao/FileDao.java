@@ -1,7 +1,7 @@
 package kjh.reservation.dao;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -49,7 +49,7 @@ public class FileDao {
 		return jdbc.queryForObject(FileSqls.SELECT_THUMB_FILE_ID, params, rowMapperProductImage);
 	}
 
-	public Collection<ProductImage> getFileIdList(Integer id) {
+	public List<ProductImage> getFileIdList(Integer id) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("product_id", id);
 		return jdbc.query(FileSqls.SELECT_FILE_ID, params, rowMapperProductImage);

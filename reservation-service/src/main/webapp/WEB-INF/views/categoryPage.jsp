@@ -24,7 +24,7 @@
 			<th>remove</th>
 		</tr>
 			<c:forEach var="i" items="${listInfo}">
-				<tr>
+				<tr id="${i.id}">
 					<th>${i.id}</th>
 					<th>${i.name}</th>
 					<th><form method="post" action="/categorys">

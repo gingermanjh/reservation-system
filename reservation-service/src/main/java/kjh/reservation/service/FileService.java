@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -123,9 +123,9 @@ public class FileService {
 
 	}
 
-	public Collection<FileDomain> getImageList(Integer id) {
-		Collection<FileDomain> fdList = new ArrayList<FileDomain>();
-		Collection<ProductImage> idList = fileDao.getFileIdList(id);
+	public List<FileDomain> getImageList(Integer id) {
+		List<FileDomain> fdList = new ArrayList<FileDomain>();
+		List<ProductImage> idList = fileDao.getFileIdList(id);
 		for(ProductImage img : idList) {
 			FileDomain fd = fileDao.getFile(img.getFile_id());
 			fdList.add(fd);
