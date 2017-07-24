@@ -41,14 +41,14 @@ public class LoginService {
 		return getNaverLoginUrl(session);
 	}
 
-	public String getNaverToken(HttpServletRequest request) throws UnsupportedEncodingException {
+	public Integer getNaverToken(HttpServletRequest request) throws UnsupportedEncodingException {
 
-		String apiURL = getNaverAccessToken(request);
+		String apiURL = getNaverAccessTokenUrl(request);
 		String accessToken = "";
 
 		RestTemplate restTemplate = new RestTemplate();
 		NaverAccessToken nat = restTemplate.getForObject(apiURL, NaverAccessToken.class);
-		accessToken = nat.getAccess_token();
+		accessToken = nat.getAccessToken();
 
 		String header = "Bearer " + accessToken; // Bearer 다음에 공백 추가
 		HttpHeaders headers = new HttpHeaders();
@@ -65,12 +65,11 @@ public class LoginService {
 
 		Users chk = loginDao.selectByEmail(response.getEmail());
 		if(chk == null) {
-			loginDao.insert(user);
+			return loginDao.insert(user);
 		} else {
 			System.out.println("이미 있는 유저");
+			return chk.getId();
 		}
-		
-		return "myreservation";
 	}
 
 	private String getNaverLoginUrl(HttpSession session) throws UnsupportedEncodingException {
@@ -86,7 +85,7 @@ public class LoginService {
 		return apiURL;
 	}
 
-	private String getNaverAccessToken(HttpServletRequest request) throws UnsupportedEncodingException {
+	private String getNaverAccessTokenUrl(HttpServletRequest request) throws UnsupportedEncodingException {
 		String clientId = "xG6IjQpP8c8ePRi3w__i";// 애플리케이션 클라이언트 아이디값";
 		String clientSecret = "h73kuGutrv";// 애플리케이션 클라이언트 시크릿값";
 		String code = request.getParameter("code");

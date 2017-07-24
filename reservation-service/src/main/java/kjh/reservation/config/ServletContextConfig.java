@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -44,5 +45,12 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 		// /src/main/resources의 파일쓸 때
 		// registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
+
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/myreservation/**");
+//	}
+	
+	
 
 }

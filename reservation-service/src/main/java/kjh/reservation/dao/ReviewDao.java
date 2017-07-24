@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import kjh.reservation.domain.DisplayInfo;
@@ -21,7 +20,6 @@ import kjh.reservation.domain.ReservationUserCommentImage;
 public class ReviewDao {
 	
 	private NamedParameterJdbcTemplate jdbc;
-	private SimpleJdbcInsert insertAction;
 	private RowMapper<ReservationUserComment> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserComment.class);
 	private RowMapper<DisplayInfo> rowMapperDetailPath = BeanPropertyRowMapper.newInstance(DisplayInfo.class);
 	private RowMapper<ReservationUserCommentImage> rowMapperCommentImage = BeanPropertyRowMapper.newInstance(ReservationUserCommentImage.class);
@@ -29,7 +27,6 @@ public class ReviewDao {
 	
 	public ReviewDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-		this.insertAction = new SimpleJdbcInsert(dataSource).withTableName("reservation_user_comment").usingGeneratedKeyColumns("id");
 	}
 
 

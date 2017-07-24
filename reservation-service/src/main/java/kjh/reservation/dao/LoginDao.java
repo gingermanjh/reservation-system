@@ -15,7 +15,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import kjh.reservation.domain.Users;
-import kjh.reservation.dto.NaverLoginUser;
 
 @Repository
 public class LoginDao {

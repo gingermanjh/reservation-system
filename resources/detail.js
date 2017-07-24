@@ -161,7 +161,8 @@ $(".bk_more").on("click", function (event) {
 // 예매 버튼 이벤트
 $(".bk_btn").on("click", function () {
     if (salesFlag === 0) {
-        alert("예매~~");
+        console.log("예매~~");
+        location.href="/reservations/book/" + id;
     } else if (salesFlag === 1) {
         alert("판매종료");
     } else {

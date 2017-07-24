@@ -11,7 +11,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import kjh.reservation.domain.DisplayInfo;
@@ -21,14 +20,12 @@ import kjh.reservation.dto.CountParam;
 @Repository
 public class ProductDao {
 	private NamedParameterJdbcTemplate jdbc;
-	private SimpleJdbcInsert insertAction;
 	private RowMapper<Product> rowMapper = BeanPropertyRowMapper.newInstance(Product.class);
 	private RowMapper<DisplayInfo> rowMapperMpd = BeanPropertyRowMapper.newInstance(DisplayInfo.class);
 	private RowMapper<CountParam> rowMapperCount = BeanPropertyRowMapper.newInstance(CountParam.class);
 
 	public ProductDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-		this.insertAction = new SimpleJdbcInsert(dataSource).withTableName("product").usingGeneratedKeyColumns("id");
 	}
 
 	public List<Product> selectByCategory(Integer categoryId) {

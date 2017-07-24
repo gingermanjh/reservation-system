@@ -594,6 +594,9 @@
     </div>
     <!--// 취소 팝업 -->
 
+	<script src="/resources/node_modules/jquery/dist/jquery.js"></script>
+	<script src="/resources/node_modules/handlebars/dist/handlebars.js"></script>
+	<script src="/resources/myreservation.js"></script>
 </body>
 
 </html>

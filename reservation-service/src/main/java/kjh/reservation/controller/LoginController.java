@@ -21,19 +21,20 @@ public class LoginController {
 	
 	@GetMapping
 	public String loginPage(HttpSession session) {
-		String tmp = loginService.check(session);
-		return tmp;
+		return loginService.check(session);
 	}
 	
 	@GetMapping("/oauth2c")
 	public String naverLoginCallback(HttpServletRequest request) throws UnsupportedEncodingException {
-		return loginService.getNaverToken(request);
+		Integer userId = loginService.getNaverToken(request);
+		request.getSession().setAttribute("userId", userId);
+		return "redirect:/reservations";
 	}
 	
 	@GetMapping("/naverlogin")
 	public String naverLogin(HttpSession session) throws UnsupportedEncodingException {
-		String tmp = loginService.naverLogin(session);
-		return "redirect:"+tmp;
+		String url = loginService.naverLogin(session);
+		return "redirect:"+url;
 	} 
 	
 }
